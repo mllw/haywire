@@ -186,6 +186,7 @@ HAYWIRE_EXTERN void hw_set_body(hw_http_response* response, hw_string* body);
 HAYWIRE_EXTERN void hw_http_response_send(hw_http_response* response, void* user_data, http_response_complete_callback callback);
     
 HAYWIRE_EXTERN void hw_print_request_headers(http_request* request);
+HAYWIRE_EXTERN void hw_print_body(http_request* request);
 
 #ifdef __cplusplus
 }

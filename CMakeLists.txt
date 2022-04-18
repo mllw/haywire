@@ -5,7 +5,7 @@ include("common.cmake")
 # Haywire
 # ----------------------------------------
 project(haywire C)
-set(CMAKE_BUILD_TYPE RelWithDebInfo)
+
 
 find_package(unofficial-libuv CONFIG REQUIRED)
 

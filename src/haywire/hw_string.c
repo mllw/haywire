@@ -58,6 +58,15 @@ char* dupstr(const char *s)
     }
     return result;
 }
+char* dupnstr(const char*s, int size)
+{
+     char* result = malloc(size);
+      if (result != NULL)
+    {
+        strncpy(result,s, size);
+    }
+    return result;
+}
 
 void string_from_int(hw_string* str, int val, int base)
 {

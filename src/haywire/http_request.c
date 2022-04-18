@@ -11,7 +11,9 @@
 #include "server_stats.h"
 #include "route_compare_method.h"
 
-extern char* uv__strndup(const char* s, size_t n);
+// extern char* uv__strndup(const char* s, size_t n);
+
+
 
 #define CRLF "\r\n"
 static const char response_404[] =
@@ -45,8 +47,8 @@ void hw_print_request_headers(http_request* request)
 
     khash_t(hw_string_hashmap) *h = request->headers;
     kh_foreach(h, k, v, {
-        char* key = uv__strndup(k->value, k->length + 1);
-        char* value = uv__strndup(v->value, v->length + 1);
+        char* key = dupnstr(k->value, k->length + 1);
+        char* value = dupnstr(v->value, v->length + 1);
         printf("KEY: %s VALUE: %s\n", key, value);
         free(key);
         free(value);
@@ -56,7 +58,7 @@ void hw_print_request_headers(http_request* request)
 void hw_print_body(http_request* request)
 {
     if (request->body->length > 0) {
-        char* body = uv__strndup(request->body->value, request->body->length);
+        char* body = dupnstr(request->body->value, request->body->length);
         printf("BODY: %s\n", body);
         free(body);
     }

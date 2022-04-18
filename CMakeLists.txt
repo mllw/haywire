@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.18)
 include("common.cmake")
 
 # ----------------------------------------
@@ -7,15 +7,7 @@ include("common.cmake")
 project(haywire C)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
-add_definitions(-std=gnu99)
-#add_definitions(-mavx)
-add_definitions(-msse4.1)
-add_definitions(-pedantic)
-add_definitions(-O3)
-add_definitions(-Wall)
-add_definitions(-Wextra)
-add_definitions(-Wcast-align)
-add_definitions(-w)
+find_package(unofficial-libuv CONFIG REQUIRED)
 
 if (UNIX)
     add_definitions(-DUNIX)
@@ -37,9 +29,9 @@ find_package(Threads REQUIRED)
 add_library(haywire STATIC ${HAYWIRE_SOURCES})
 
 target_link_libraries (haywire ${CMAKE_THREAD_LIBS_INIT}
-    ${CMAKE_SOURCE_DIR}/lib/libuv/.libs/libuv.a)
+unofficial::libuv::libuv)
 
-GET_PROPERTY(haywire_location TARGET haywire PROPERTY LOCATION)
+# GET_PROPERTY(haywire_location TARGET haywire PROPERTY LOCATION)
 
 # ----------------------------------------
 # Hello world sample
@@ -64,8 +56,8 @@ add_dependencies(hello_world haywire)
 
 # Libraries to link in reverse order because that's what ld requires.
 target_link_libraries (hello_world
-    ${haywire_location}
-    ${CMAKE_SOURCE_DIR}/lib/libuv/.libs/libuv.a
+    haywire
+    unofficial::libuv::libuv
     ${CMAKE_THREAD_LIBS_INIT})
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
